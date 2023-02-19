@@ -117,7 +117,7 @@ export class PrismaLocationsRepository implements LocationRepository {
             zipcode,
         }: UpdateLocationDTO,
     ): Promise<CreatedLocationDTO> {
-        return await this.prisma.locations.update({
+        return this.prisma.locations.update({
             where: {
                 id,
             },

@@ -124,7 +124,7 @@ export class PrismaCompaniesRepository implements CompaniesRepository {
         id: number,
         { name, cnpj, website }: UpdateCompanyDTO,
     ): Promise<CreatedCompanyDTO> {
-        return await this.prisma.companies.update({
+        return this.prisma.companies.update({
             where: {
                 id,
             },
