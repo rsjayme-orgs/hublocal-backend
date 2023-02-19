@@ -1,13 +1,13 @@
 import {
     Body,
     Controller,
-    Post,
-    Get,
-    Put,
-    UseGuards,
-    Request,
-    Param,
     Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Request,
+    UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/session/authguard/jwt-auth.guard';
 import { CreateLocationDTO } from '../dtos/create-location-dto';
@@ -43,7 +43,7 @@ export class LocationsController {
         }: CreateLocationDTO,
         @Request() { user },
     ): Promise<CreatedLocationDTO> {
-        const location = await this.createLocationUseCase.execute({
+        return await this.createLocationUseCase.execute({
             name,
             user_id: user.id,
             city,
@@ -54,8 +54,6 @@ export class LocationsController {
             street,
             zipcode,
         });
-
-        return location;
     }
 
     @UseGuards(JwtAuthGuard)
@@ -64,12 +62,10 @@ export class LocationsController {
         @Request() { user },
         @Param() { company_id },
     ): Promise<CreatedLocationDTO[]> {
-        const companies = await this.listLocationsUseCase.execute({
+        return await this.listLocationsUseCase.execute({
             company_id: Number(company_id),
             user_id: Number(user.id),
         });
-
-        return companies;
     }
 
     @UseGuards(JwtAuthGuard)
@@ -90,21 +86,16 @@ export class LocationsController {
     ): Promise<CreatedLocationDTO> {
         const { id } = params;
 
-        const updatedCompany = await this.updateLocationUseCase.execute(
-            Number(id),
-            {
-                name,
-                city,
-                neighborhood,
-                number: Number(number),
-                state,
-                street,
-                zipcode,
-                user_id: user.id,
-            },
-        );
-
-        return updatedCompany;
+        return await this.updateLocationUseCase.execute(Number(id), {
+            name,
+            city,
+            neighborhood,
+            number: Number(number),
+            state,
+            street,
+            zipcode,
+            user_id: user.id,
+        });
     }
 
     @UseGuards(JwtAuthGuard)

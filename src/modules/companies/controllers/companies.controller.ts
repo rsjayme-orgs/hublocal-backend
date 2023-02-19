@@ -1,13 +1,13 @@
 import {
     Body,
     Controller,
-    Post,
-    Get,
-    Put,
-    UseGuards,
-    Request,
-    Param,
     Delete,
+    Get,
+    Param,
+    Post,
+    Put,
+    Request,
+    UseGuards,
 } from '@nestjs/common';
 import { JwtAuthGuard } from 'src/modules/session/authguard/jwt-auth.guard';
 import { CreateCompanyDTO } from '../dtos/create-company-dto';
@@ -33,24 +33,20 @@ export class CompaniesController {
         @Body() { name, cnpj, website }: CreateCompanyDTO,
         @Request() { user },
     ): Promise<CreatedCompanyDTO> {
-        const company = await this.createCompanyUseCase.execute({
+        return await this.createCompanyUseCase.execute({
             name,
             cnpj,
             user_id: user.id,
             website,
         });
-
-        return company;
     }
 
     @UseGuards(JwtAuthGuard)
     @Get()
     async list(@Request() { user }): Promise<CreatedCompanyDTO[]> {
-        const companies = await this.listCompaniesUseCase.execute({
+        return await this.listCompaniesUseCase.execute({
             user_id: Number(user.id),
         });
-
-        return companies;
     }
 
     @UseGuards(JwtAuthGuard)
@@ -62,17 +58,12 @@ export class CompaniesController {
     ): Promise<CreatedCompanyDTO> {
         const { id } = params;
 
-        const updatedCompany = await this.updateCompanyUseCase.execute(
-            Number(id),
-            {
-                cnpj,
-                name,
-                website,
-                user_id: Number(user.id),
-            },
-        );
-
-        return updatedCompany;
+        return await this.updateCompanyUseCase.execute(Number(id), {
+            cnpj,
+            name,
+            website,
+            user_id: Number(user.id),
+        });
     }
 
     @UseGuards(JwtAuthGuard)
