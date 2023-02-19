@@ -33,6 +33,12 @@ FRONT_END_HOST=""
 $ npx prisma generate
 ```
 
+- Rode o seguinte comando para aplicar as migrations
+
+```bash
+$ npx prisma migrate dev
+```
+
 ## Rodando o projeto
 
 ```bash
